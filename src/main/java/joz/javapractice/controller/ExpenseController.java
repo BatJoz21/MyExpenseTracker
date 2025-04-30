@@ -5,12 +5,10 @@ import joz.javapractice.service.ExpenseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -44,5 +42,38 @@ public class ExpenseController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(categories);
+    }
+
+    @GetMapping("/expenses/{id}")
+    public ResponseEntity<Optional<Expense>> getExpenseById(@PathVariable("id") Long id){
+        return ResponseEntity.ok(expenseService.getExpenseById(id));
+    }
+
+    @PostMapping("/expenses")
+    public ResponseEntity<Expense> addExpense(@RequestBody Expense expense){
+        Expense newExpense = expenseService.addExpense(expense);
+        return new ResponseEntity<>(newExpense, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/expenses/{id}")
+    public ResponseEntity<Expense> updateExpense(@PathVariable("id") long id,
+                                                 @RequestBody Expense expense){
+        expense.setId(id);
+        boolean isUpdated = expenseService.updateExpense(expense);
+        if (isUpdated){
+            return new ResponseEntity<>(expense, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/expenses/{id}")
+    public ResponseEntity<Void> deleteExpense(@PathVariable("id") Long id){
+        boolean isDeleted = expenseService.deleteExpense(id);
+        if (isDeleted){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
