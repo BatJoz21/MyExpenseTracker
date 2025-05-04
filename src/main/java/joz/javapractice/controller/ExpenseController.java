@@ -1,8 +1,7 @@
 package joz.javapractice.controller;
 
 import joz.javapractice.model.Expense;
-import joz.javapractice.service.ExpenseServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import joz.javapractice.service.ExpenseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +12,9 @@ import java.util.stream.Collectors;
 
 @RestController
 public class ExpenseController {
-    private final ExpenseServiceImpl expenseService;
+    private final ExpenseService expenseService;
 
-    @Autowired
-    public ExpenseController(ExpenseServiceImpl expenseService) {
+    public ExpenseController(ExpenseService expenseService) {
         this.expenseService = expenseService;
     }
 
