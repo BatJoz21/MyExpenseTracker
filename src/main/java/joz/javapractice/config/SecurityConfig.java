@@ -1,5 +1,6 @@
 package joz.javapractice.config;
 
+import joz.javapractice.model.Role;
 import joz.javapractice.security.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +33,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/signup", "/login").permitAll()
-                                .anyRequest().authenticated()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .anyRequest().hasRole("USER")
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

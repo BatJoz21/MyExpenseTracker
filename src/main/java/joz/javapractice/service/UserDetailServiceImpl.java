@@ -3,13 +3,13 @@ package joz.javapractice.service;
 import joz.javapractice.model.AppUser;
 import joz.javapractice.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
+import java.util.Collections;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
@@ -22,6 +22,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 () -> new UsernameNotFoundException("User not found")
         );
 
-        return new User(user.getUsername(), user.getPassword(), new ArrayList<>());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().name());
+
+        return new User(user.getUsername(), user.getPassword(), Collections.singleton(authority));
     }
 }

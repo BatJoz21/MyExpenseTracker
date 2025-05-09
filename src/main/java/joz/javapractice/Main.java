@@ -16,7 +16,8 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<Expense> theExpenseList = ExpenseDataLoader.getExpenses();
-        theExpenseList.forEach(System.out::println);
+        System.out.println("THE APP IS RUNNING!");
+//        List<Expense> theExpenseList = ExpenseDataLoader.getExpenses();
+//        theExpenseList.forEach(System.out::println);
     }
 }

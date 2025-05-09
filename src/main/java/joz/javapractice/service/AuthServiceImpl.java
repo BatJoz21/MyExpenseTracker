@@ -4,6 +4,7 @@ import joz.javapractice.dto.AppUserDTO;
 import joz.javapractice.dto.AuthDTO;
 import joz.javapractice.dto.AuthResponseDTO;
 import joz.javapractice.model.AppUser;
+import joz.javapractice.model.Role;
 import joz.javapractice.utils.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -35,7 +36,7 @@ public class AuthServiceImpl implements AuthService{
         appUser.setFullName(appUserDTO.getFullName());
         appUser.setUsername(appUserDTO.getUsername());
         appUser.setPassword(passwordEncoder.encode(appUserDTO.getPassword()));
-
+        appUser.setRole(Role.USER);
         userService.saveUser(appUser);
 
         AuthDTO authDTO = new AuthDTO();
