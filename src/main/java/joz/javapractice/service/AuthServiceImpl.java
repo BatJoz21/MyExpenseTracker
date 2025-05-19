@@ -43,6 +43,7 @@ public class AuthServiceImpl implements AuthService{
         authDTO.setUsername(appUserDTO.getUsername());
         authDTO.setPassword(appUserDTO.getPassword());
 
+        //return new AuthResponseDTO(jwtUtil.generateToken(authDTO.getUsername()), "success");
         return loginUser(authDTO);
     }
 
@@ -53,9 +54,9 @@ public class AuthServiceImpl implements AuthService{
                     new UsernamePasswordAuthenticationToken(authDTO.getUsername(), authDTO.getPassword())
             );
             final String token = jwtUtil.generateToken(authDTO.getUsername());
-            return new AuthResponseDTO(token, "Success");
+            return new AuthResponseDTO(token, "success");
         } catch (BadCredentialsException e) {
-            return new AuthResponseDTO(null, "Invalid username or password");
+            return new AuthResponseDTO(null, "error: Invalid username or password");
         }
     }
 }

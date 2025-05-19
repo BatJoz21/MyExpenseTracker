@@ -24,7 +24,7 @@ public class AuthController {
     public ResponseEntity<AuthResponseDTO> signUp(@RequestBody AppUserDTO appUserDTO){
         AuthResponseDTO response = authService.registerUser(appUserDTO);
 
-        if ("Success".equals(response.getMessage())){
+        if ("success".equals(response.getMessage())){
             return ResponseEntity.ok(response);
         }
         else{
@@ -36,7 +36,7 @@ public class AuthController {
     public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthDTO authDTO){
         AuthResponseDTO response = authService.loginUser(authDTO);
 
-        if ("Success".equals(response.getMessage())){
+        if ("success".equals(response.getMessage())){
             return ResponseEntity.ok(response);
         }
         else{
