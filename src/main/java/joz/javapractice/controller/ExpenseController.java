@@ -58,12 +58,41 @@ public class ExpenseController {
         return ResponseEntity.status(HttpStatus.OK).body(categories);
     }
 
+    @GetMapping("/expenses/categories/month")
+    public ResponseEntity<List<Expense>> getExpenseCategoriesInAMonth(@RequestParam String month,
+                                                                     Authentication authentication){
+        String username = authentication.getName();
+        AppUser user = userService.findByUsername(username);
+
+        List<Expense> categories = expenseService.getAllExpenseInAMonth(month, user.getId());
+        if (categories.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(categories);
+    }
+
     @GetMapping("/expenses/{id}")
     public ResponseEntity<Optional<Expense>> getExpenseById(@PathVariable Long id, Authentication authentication){
         String username = authentication.getName();
         AppUser user = userService.findByUsername(username);
 
         return ResponseEntity.ok(expenseService.getExpenseById(id, user.getId()));
+    }
+
+    @GetMapping("/expenses/avg_expense/{month}")
+    public ResponseEntity<Double> getAverageExpenseInAMonth(@PathVariable String month, Authentication authentication){
+        String username = authentication.getName();
+        AppUser user = userService.findByUsername(username);
+
+        return ResponseEntity.ok(expenseService.getAverageAmountOnAMonth(0, month, user.getId()));
+    }
+
+    @GetMapping("/expenses/avg_income/{month}")
+    public ResponseEntity<Double> getAverageIncomeInAMonth(@PathVariable String month, Authentication authentication){
+        String username = authentication.getName();
+        AppUser user = userService.findByUsername(username);
+
+        return ResponseEntity.ok(expenseService.getAverageAmountOnAMonth(1, month, user.getId()));
     }
 
     @PostMapping("/expenses")

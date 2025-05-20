@@ -35,6 +35,13 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    public List<Expense> getAllExpenseInAMonth(String month, Long userId) {
+        return expenseRepository.findByUserIdOrderByDateDesc(userId).stream().filter(
+                expense -> expense.getDate().startsWith(month)
+        ).toList();
+    }
+
+    @Override
     public List<Expense> getExpenseByCategoryAndMonth(String category, String month, Long userId) {
         return expenseRepository.findByUserIdOrderByDateDesc(userId).stream().filter(
                 expense -> expense.getCategory().equalsIgnoreCase(category)
@@ -50,6 +57,20 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public Optional<Expense> getExpenseById(Long id, Long userId) {
         return expenseRepository.findByIdAndUserId(id, userId);
+    }
+
+    @Override
+    public double getAverageAmountOnAMonth(int expenseType, String month, Long userId) {
+        List<Expense> expenses = expenseRepository.findByUserIdOrderByDateDesc(userId).stream().filter(
+                expense -> expense.getExpenseType() == expenseType && expense.getDate().startsWith(month)
+        ).toList();
+
+        double totalIncome = 0;
+        for (Expense exp : expenses){
+            totalIncome += exp.getAmount();
+        }
+
+        return totalIncome / expenses.size();
     }
 
     @Override
