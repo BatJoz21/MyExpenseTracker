@@ -1,5 +1,6 @@
 server:
-  port:8080 # Set port for you Spring Boot Application
+  port: ${PORT:8080}
+  #port:8080 # Set port for you Spring Boot Application
 
 spring:
   profiles:
