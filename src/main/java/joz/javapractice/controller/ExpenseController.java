@@ -29,9 +29,9 @@ public class ExpenseController {
         AppUser user = userService.findByUsername(username);
 
         List<Expense> expenses = expenseService.getExpenseByDay(date, user.getId());
-        if (expenses.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        }
+//        if (expenses.isEmpty()){
+//            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+//        }
         return ResponseEntity.status(HttpStatus.OK).body(expenses);
     }
 
