@@ -1,4 +1,5 @@
 server:
+  address: 0.0.0.0
   port: ${PORT:8080}
   #port:8080 # Set port for you Spring Boot Application
 
